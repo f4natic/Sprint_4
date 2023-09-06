@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BaseTest {
     protected WebDriver driver;
-    protected final String EXAMPLE_URL = "https://example.org/";
 
     @Before
     public void init() {
@@ -28,7 +27,6 @@ public class BaseTest {
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
         }
-        driver.get(EXAMPLE_URL);
     }
 
     @After
