@@ -1,6 +1,8 @@
 package ru.yandex.practicum;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import ru.yandex.practicum.base.BaseTest;
 import ru.yandex.practicum.page.AboutImportantPage;
 import ru.yandex.practicum.page.MainPage;
@@ -8,31 +10,36 @@ import ru.yandex.practicum.page.MainPage;
 import static org.junit.Assert.assertEquals;
 import static ru.yandex.practicum.base.Constants.SCOOTER_URL;
 
+@RunWith(Parameterized.class)
 public class AboutImportantTest extends BaseTest {
+
+    private final int id;
+    private final boolean answerDisplayed;
+
+    public AboutImportantTest(int id, boolean answerDisplayed) {
+        this.id = id;
+        this.answerDisplayed = answerDisplayed;
+    }
+
+    @Parameterized.Parameters
+    public static Object[][] getData() {
+        return new Object[][] {
+                {0, true}, {1, true}, {2, true},
+                {3, true}, {4, true}, {5, true},
+                {6, true}, {7, true},
+        };
+    }
 
     @Test
     public void shouldShowTextOnClick() {
         driver.get(SCOOTER_URL);
 
-        new MainPage(driver).acceptCookie();
+        MainPage mainPage = new MainPage(driver);
+        mainPage.acceptCookie();
 
         AboutImportantPage infoPage = new AboutImportantPage(driver);
         infoPage.scrollToImportant();
-        infoPage.clickOnQuestionOne();
-        assertEquals("На первом вопросе не показывается ответ", true, infoPage.answerOneShowText());
-        infoPage.clickOnQuestionTwo();
-        assertEquals("На втором вопросе не показывается ответ", true, infoPage.answerTwoShowText());
-        infoPage.clickOnQuestionThree();
-        assertEquals("На третьем вопросе не показывается ответ", true, infoPage.answerThreeShowText());
-        infoPage.clickOnQuestionFour();
-        assertEquals("На четвертом вопросе не показывается ответ", true, infoPage.answerFourShowText());
-        infoPage.clickOnQuestionFive();
-        assertEquals("На пятом вопросе не показывается ответ", true, infoPage.answerFiveShowText());
-        infoPage.clickOnQuestionSix();
-        assertEquals("На шестом вопросе не показывается ответ", true, infoPage.answerSixShowText());
-        infoPage.clickOnQuestionSeven();
-        assertEquals("На седьмом вопросе не показывается ответ", true, infoPage.answerSevenShowText());
-        infoPage.clickOnQuestionEight();
-        assertEquals("На восьмом вопросе не показывается ответ", true, infoPage.answerEightShowText());
+        infoPage.clickOnQuestion(id);
+        assertEquals(String.format("На %d вопросе не показывается ответ", id), answerDisplayed, infoPage.answerOnQuestion(id));
     }
 }

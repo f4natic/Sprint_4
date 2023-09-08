@@ -4,12 +4,13 @@ import org.junit.Test;
 import ru.yandex.practicum.base.BaseTest;
 
 import static org.junit.Assert.assertEquals;
-import static ru.yandex.practicum.base.Constants.EXAMPLE_URL;
 
+//Класс для проверки, что selenium и webdriver manager работают
 public class AcceptanceTest extends BaseTest {
+    private String exampleUrl = "https://example.org/";
     @Test
     public void shouldGetPageTitle() {
-        driver.get(EXAMPLE_URL);
+        driver.get(exampleUrl);
 
         String title = driver.getTitle();
         String expected = "Example Domain";
